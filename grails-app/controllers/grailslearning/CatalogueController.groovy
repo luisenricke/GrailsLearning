@@ -5,7 +5,7 @@ import static org.springframework.http.HttpStatus.*
 
 class CatalogueController {
 
-    CatalogueService catalogueService
+    ICatalogueService catalogueService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
