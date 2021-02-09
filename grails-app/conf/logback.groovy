@@ -42,7 +42,7 @@ if (appends.contains('CONSOLE')) {
 if (appends.contains('FILES')) {
     appender("FILES", RollingFileAppender) {
         encoder(PatternLayoutEncoder) {
-            pattern = "%d{${timeOutput}} [%thread] %-5level %logger{40} - %msg%n"
+            pattern = "%-5level %d{${timeOutput}} [%thread] %logger{40} - %msg%n"
         }
 
         rollingPolicy(SizeAndTimeBasedRollingPolicy) {
