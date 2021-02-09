@@ -6,7 +6,8 @@ class Catalogue {
     String name
 
     static constraints = {
-        id generator: 'uuid', lenght: 36
+        id generator: 'uuid'
         name blank: false, maxSize: 255
     }
+
 }
