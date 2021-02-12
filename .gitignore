@@ -11,4 +11,4 @@ out/
 .settings
 .classpath
 logs/*.log
-reports/*
+reports/*/**
