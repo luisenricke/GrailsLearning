@@ -68,10 +68,10 @@ class CatalogueSpec extends Specification implements DomainUnitTest<Catalogue> {
         names.contains(expected) == expectedErrorCode
 
         where: 'table of values'
-        value       | expected      | expectedErrorCode
-        'dog'       | 'dog'         | true
-        'cat'       | 'cat'         | true
-        'bird'      | 'test'        | false
-        'other'     | 'fail'        | false
+        value   | expected | expectedErrorCode
+        'dog'   | 'dog'    | true
+        'cat'   | 'cat'    | true
+        'bird'  | 'test'   | false
+        'other' | 'fail'   | false
     }
 }

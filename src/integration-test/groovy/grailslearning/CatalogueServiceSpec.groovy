@@ -15,8 +15,10 @@ import org.hibernate.SessionFactory
 @Rollback
 class CatalogueServiceSpec extends Specification {
 
-    @Shared CatalogueService catalogueService
-    @Shared SessionFactory sessionFactory
+    @Shared
+    CatalogueService catalogueService
+    @Shared
+    SessionFactory sessionFactory
 
     static private String setupData() {
         new Catalogue(name: '1').save(flush: true, failOnError: true)
