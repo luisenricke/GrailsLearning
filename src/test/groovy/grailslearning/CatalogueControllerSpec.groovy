@@ -3,13 +3,26 @@ package grailslearning
 import grails.testing.gorm.DomainUnitTest
 import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
-import spock.lang.*
+import spock.lang.Specification
+import spock.lang.Title
+import spock.lang.Narrative
 
 // https://guides.grails.org/grails3/grails-controller-testing/guide/index.html
 // https://guides.grails.org/grails3/grails-custom-security-tenant-resolver/guide/index.html
 // http://spockframework.org/spock/docs/1.3/all_in_one.html
 // https://medium.com/@xala3pa/mocking-with-spock-51c8e2fb6cb6
-class CatalogueControllerSpec extends Specification implements ControllerUnitTest<CatalogueController>, DomainUnitTest<Catalogue> {
+// https://www.coveros.com/why-you-shouldnt-use-cucumber-for-api-test/
+// https://guides.grails.org/grails-controller-testing/guide/index.html
+// https://github.com/renatoathaydes/spock-reports
+// https://www.paradigmadigital.com/dev/testing-orientado-bdd-spock-22/
+// http://spockframework.org/spock/docs/1.3/all_in_one.html
+@Title("Default controller tests")
+@Narrative('''
+This is a simple test of controller
+''')
+class CatalogueControllerSpec
+        extends Specification
+        implements ControllerUnitTest<CatalogueController>, DomainUnitTest<Catalogue> {
 
     def populateValidParams(params) {
         assert params != null
@@ -23,29 +36,32 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             1 * count() >> 0
         }
 
-        when:"The index action is executed"
+        when: "The index action is executed"
         controller.index()
 
-        then:"The model is correct"
+        then: "The model is correct"
         !model.catalogueList
         model.catalogueCount == 0
+
+        expect:
+        println "dasffad"
     }
 
     def "Test the create action returns the correct model"() {
-        when:"The create action is executed"
+        when: "The create action is executed"
         controller.create()
 
-        then:"The model is correctly created"
-        model.catalogue!= null
+        then: "The model is correctly created"
+        model.catalogue != null
     }
 
     def "Test the save action with a null instance"() {
-        when:"Save is called for a domain instance that doesn't exist"
+        when: "Save is called for a domain instance that doesn't exist"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
         controller.save(null)
 
-        then:"A 404 error is returned"
+        then: "A 404 error is returned"
         response.redirectedUrl == '/catalogue/index'
         flash.message != null
     }
@@ -56,7 +72,7 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             1 * save(_ as Catalogue)
         }
 
-        when:"The save action is executed with a valid instance"
+        when: "The save action is executed with a valid instance"
         response.reset()
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
@@ -66,7 +82,7 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
 
         controller.save(catalogue)
 
-        then:"A redirect is issued to the show action"
+        then: "A redirect is issued to the show action"
         response.redirectedUrl == '/catalogue/show/1'
         controller.flash.message != null
     }
@@ -79,13 +95,13 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             }
         }
 
-        when:"The save action is executed with an invalid instance"
+        when: "The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
         def catalogue = new Catalogue()
         controller.save(catalogue)
 
-        then:"The create view is rendered again with the correct model"
+        then: "The create view is rendered again with the correct model"
         model.catalogue != null
         view == 'create'
     }
@@ -96,10 +112,10 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             1 * get(null) >> null
         }
 
-        when:"The show action is executed with a null domain"
+        when: "The show action is executed with a null domain"
         controller.show(null)
 
-        then:"A 404 error is returned"
+        then: "A 404 error is returned"
         response.status == 404
     }
 
@@ -109,10 +125,10 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             1 * get('2') >> new Catalogue()
         }
 
-        when:"A domain instance is passed to the show action"
+        when: "A domain instance is passed to the show action"
         controller.show('2')
 
-        then:"A model is populated containing the domain instance"
+        then: "A model is populated containing the domain instance"
         model.catalogue instanceof Catalogue
     }
 
@@ -122,10 +138,10 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             1 * get(null) >> null
         }
 
-        when:"The show action is executed with a null domain"
+        when: "The show action is executed with a null domain"
         controller.edit(null)
 
-        then:"A 404 error is returned"
+        then: "A 404 error is returned"
         response.status == 404
     }
 
@@ -135,20 +151,20 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             1 * get('2') >> new Catalogue()
         }
 
-        when:"A domain instance is passed to the show action"
+        when: "A domain instance is passed to the show action"
         controller.edit('2')
 
-        then:"A model is populated containing the domain instance"
+        then: "A model is populated containing the domain instance"
         model.catalogue instanceof Catalogue
     }
 
     def "Test the update action with a null instance"() {
-        when:"Save is called for a domain instance that doesn't exist"
+        when: "Save is called for a domain instance that doesn't exist"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
         controller.update(null)
 
-        then:"A 404 error is returned"
+        then: "A 404 error is returned"
         response.redirectedUrl == '/catalogue/index'
         flash.message != null
     }
@@ -159,7 +175,7 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             1 * save(_ as Catalogue)
         }
 
-        when:"The save action is executed with a valid instance"
+        when: "The save action is executed with a valid instance"
         response.reset()
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
@@ -169,7 +185,7 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
 
         controller.update(catalogue)
 
-        then:"A redirect is issued to the show action"
+        then: "A redirect is issued to the show action"
         response.redirectedUrl == '/catalogue/show/1'
         controller.flash.message != null
     }
@@ -182,23 +198,23 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             }
         }
 
-        when:"The save action is executed with an invalid instance"
+        when: "The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'PUT'
         controller.update(new Catalogue())
 
-        then:"The edit view is rendered again with the correct model"
+        then: "The edit view is rendered again with the correct model"
         model.catalogue != null
         view == 'edit'
     }
 
     def "Test the delete action with a null instance"() {
-        when:"The delete action is called for a null instance"
+        when: "The delete action is called for a null instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'DELETE'
         controller.delete(null)
 
-        then:"A 404 is returned"
+        then: "A 404 is returned"
         response.redirectedUrl == '/catalogue/index'
         flash.message != null
     }
@@ -209,19 +225,13 @@ class CatalogueControllerSpec extends Specification implements ControllerUnitTes
             1 * delete(2)
         }
 
-        when:"The domain instance is passed to the delete action"
+        when: "The domain instance is passed to the delete action"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'DELETE'
         controller.delete(2)
 
-        then:"The user is redirected to index"
+        then: "The user is redirected to index"
         response.redirectedUrl == '/catalogue/index'
         flash.message != null
     }
 }
-
-
-
-
-
-
