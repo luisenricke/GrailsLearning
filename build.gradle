@@ -3,6 +3,7 @@ buildscript {
         mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
     }
+
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
@@ -20,7 +21,6 @@ apply plugin: "org.grails.grails-web"
 apply plugin: "asset-pipeline"
 apply plugin: "org.grails.grails-gsp"
 apply plugin: "codenarc"
-
 
 repositories {
     mavenLocal()
@@ -60,6 +60,7 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:2.47.1"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    testCompile "com.athaydes:spock-reports:1.8.0"
 }
 
 bootRun {
@@ -87,7 +88,7 @@ codenarc {
     ignoreFailures = true
 
     reportFormat = 'html'
-    //reportsDir = file("${rootProject.projectDir}/reports/${getMonth()}/")
+    reportsDir = file("reports/codenarc/")
 }
 
 static def getMonth() {
